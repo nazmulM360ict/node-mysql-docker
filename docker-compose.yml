@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 5555:5555
+    volumes:
+      - .:/app
+      - '/app/node_modules'
+    depends_on:
+      - mysql_server
+
+  mysql_server:
+    image: mysql:8.0
+    environment:
+      - MYSQL_DATABASE=test_db
+      - MYSQL_USER=dan
+      - MYSQL_PASSWORD=secret
+      - MYSQL_ROOT_PASSWORD=secret
+
+#GET-IP: docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' c238279cd11e
+#GET-LOGS: docker logs c238279cd11e
+#RESTART-CONTAINER: docker restart c238279cd11e
+# docker exec -it c238279cd11e bash
+# mysql -u root -p
